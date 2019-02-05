@@ -1,0 +1,9 @@
+{% extends 'index.html.twig' %}
+
+{% block contenu %}
+    <ul>
+        {% for film in films %}
+            <li>{{ film.name|e }}</li>
+        {% endfor %}
+    </ul>  
+{%endblock%}
