@@ -1,0 +1,9 @@
+{% extends 'index.html.twig' %}      
+
+{% block contenu %}
+    <ul>
+        {% for user in creators %}
+            <li>{{ user|e }}</li>
+        {% endfor %}
+    </ul>
+{%endblock%}        
