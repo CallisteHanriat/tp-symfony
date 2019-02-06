@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-
+use App\Forms\FilmType;
 
 
 class FilmController extends AbstractController
@@ -81,19 +81,7 @@ class FilmController extends AbstractController
 
         $movie = new Movie();
         $movie->setName('');
-        $form = $this->createFormBuilder($movie)
-            ->add('name', TextType::class)
-            ->add('director'
-            , EntityType::class, [
-                'class' => Person::class,
-                'choice_label' => 'name',
-                 'query_builder' => function (EntityRepository $er) {
-                     return $er->findAllOrderByName();
-                 }
-            ])
-            
-            ->add('save', SubmitType::class, ['label' => 'Create Movie'])
-            ->getForm();
+        $form = $this->createForm(FilmType::class, $movie);
 
 
         $form->handleRequest($request);
