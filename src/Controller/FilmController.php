@@ -34,14 +34,35 @@ class FilmController extends AbstractController
     *
     * @Route("/getFilm/{id}/edit", name="editFilmById")
     */
-    public function editFilm($id) {
+    public function editFilm($id, Request $request) {
         $criteria = array(
             "id" => $id
         );
-        $film = $this->getDoctrine()->getRepository(Movie::class)->findOneBy($criteria);
+        $movie = $this->getDoctrine()->getRepository(Movie::class)->findOneBy($criteria);
         
-        return $this->render('films/film.html.twig', [
-            "film" => $film
+        $form = $this->createFormBuilder($movie)
+            ->add('name', TextType::class)
+            ->add('update', SubmitType::class, ['label' => 'Edit Movie'])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+            $movie = $form->getData();
+    
+            // ... perform some action, such as saving the task to the database
+            // for example, if Task is a Doctrine entity, save it!
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($movie);
+            $entityManager->flush();
+    
+            return $this->redirectToRoute('getLitFilms');
+        }
+
+        return $this->render('films/film-edit.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 
