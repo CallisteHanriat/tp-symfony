@@ -1,0 +1,7 @@
+{% extends 'index.html.twig' %}
+
+{% block contenu %}
+    <h1>Titre : {{film.name}}</h1>
+
+    <a href={{path('editFilmById', {id : film.id})}}>EDIT</a>
+{%endblock%}
