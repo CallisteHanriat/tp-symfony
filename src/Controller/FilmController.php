@@ -6,11 +6,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Movie;
+use App\Entity\Person;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
+
 
 class FilmController extends AbstractController
 {
@@ -66,8 +72,6 @@ class FilmController extends AbstractController
         ]);
     }
 
-
-
     /**
     * Matches /films exactly
     *
@@ -76,9 +80,18 @@ class FilmController extends AbstractController
     public function createFilm(Request $request) {
 
         $movie = new Movie();
-        $movie->setName('toto');
+        $movie->setName('');
         $form = $this->createFormBuilder($movie)
             ->add('name', TextType::class)
+            ->add('director'
+            , EntityType::class, [
+                'class' => Person::class,
+                'choice_label' => 'name',
+                 'query_builder' => function (EntityRepository $er) {
+                     return $er->findAllOrderByName();
+                 }
+            ])
+            
             ->add('save', SubmitType::class, ['label' => 'Create Movie'])
             ->getForm();
 

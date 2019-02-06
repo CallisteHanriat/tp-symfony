@@ -19,6 +19,10 @@ class PersonRepository extends ServiceEntityRepository
         parent::__construct($registry, Person::class);
     }
 
+    public function findAllOrderByName(){
+        return $this->createQueryBuilder('p')
+        ->orderBy('p.name','ASC');
+    }
     // /**
     //  * @return Person[] Returns an array of Person objects
     //  */
