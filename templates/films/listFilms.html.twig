@@ -4,7 +4,7 @@
     <ul>
         {% for film in films %}
             <li>{{ film.name|e }} and id {{film.id|e}}
-                <a href="{{path('getFilmById', {id: film.id} ) }}">ici</a>
+                <a href="{{path('getFilmById', {slug: film.slug} ) }}">ici</a>
             </li>
         {% endfor %}
     </ul>

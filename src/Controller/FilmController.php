@@ -23,13 +23,13 @@ class FilmController extends AbstractController
     /**
     * Matches /films exactly
     *
-    * @Route("/getFilm/detail/{id}", name="getFilmById")
+    * @Route("/getFilm/detail/{slug}", name="getFilmById")
     */
-    public function getFilm($id) {
-        $criteria = array(
-            "id" => $id
+    public function getFilm(Movie $film) {
+       /* $criteria = array(
+            "slug" => $slug
         );
-        $film = $this->getDoctrine()->getRepository(Movie::class)->findOneBy($criteria);
+        $film = $this->getDoctrine()->getRepository(Movie::class)->findOneBy($criteria);*/
         return $this->render('films/film.html.twig', [
             "film" => $film
         ]);
